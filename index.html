@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=yes">
+<title>PsGarageStep — установка Windows и настройка PlayStation 3/4/5</title>
+
+<meta name="description" content="PsGarageStep — установка Windows 7/8.1/10/11, настройка PlayStation 3/4/5, HEN, Golden Hen, EtaHen, игровые пакеты. Быстро, аккуратно, с гарантией.">
+<meta name="keywords" content="установка windows, настройка playstation, ps3 hen, ps4 golden hen, ps5 etahen, игровые пакеты">
+<meta name="theme-color" content="#070B18">
+<meta property="og:title" content="PsGarageStep — техника готова к игре">
+<meta property="og:description" content="Установка Windows и настройка PlayStation под ключ. Быстро, аккуратно, с гарантией.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%2337B7FF'/><stop offset='100%25' stop-color='%239B6BF2'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='%23070B18'/><text x='50' y='68' font-family='Arial,sans-serif' font-size='52' font-weight='800' fill='url(%23g)' text-anchor='middle'>Ps</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-0:#05080F;--bg-1:#070B18;--bg-2:#0A0F1E;
+  --panel:#0F1729;--panel-2:#0B1224;
+  --line:#1E2A46;--line-bright:#2D3F66;
+  --text:#F0F4FF;--text-soft:#C8D3F0;--muted:#8FA0C6;--muted-dim:#5F7099;
+  --cyan:#37B7FF;--blue:#3E8EF7;--violet:#9B6BF2;--pink:#E84CFF;
+  --green:#5EC26A;--red:#E0435C;--amber:#FFB800;
+  --ps3:#E0435C;--ps4:#3E8EF7;--ps5:#9B6BF2;
+  --r-sm:10px;--r-md:14px;--r-lg:18px;--r-xl:22px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --ease-bounce:cubic-bezier(.34,1.56,.64,1);
+  --t-fast:.2s;--t-med:.35s;--t-slow:.6s;
+  --header-bg:rgba(7,11,24,.78);
+  --card-bg:linear-gradient(145deg,rgba(15,23,41,.95),rgba(11,18,36,.9));
+  --brand-grad:linear-gradient(110deg, #FFFFFF 0%, #37B7FF 35%, #9B6BF2 65%, #E84CFF 100%);
+  --brand-shadow:drop-shadow(0 0 14px rgba(62,142,247,.35));
+}
+[data-theme="light"]{
+  --bg-0:#F5F8FF;--bg-1:#EDF2FB;--bg-2:#E3EAF6;
+  --panel:#FFFFFF;--panel-2:#F8FAFF;
+  --line:#D6DEEF;--line-bright:#BCC8E3;
+  --text:#0A1526;--text-soft:#2D3F66;--muted:#5A6C93;--muted-dim:#8394B8;
+  --header-bg:rgba(255,255,255,.82);
+  --card-bg:linear-gradient(145deg,#FFFFFF,#F5F8FF);
+  --brand-grad:linear-gradient(110deg, #1A2A44 0%, #0B4A78 30%, #4A2B8C 65%, #8B1F8E 100%);
+  --brand-shadow:none;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg-1);color:var(--text);
+  font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;position:relative;letter-spacing:-.005em;
+  transition:background .4s ease,color .4s ease;
+}
+
+/* LOADER */
+.page-loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg-1);display:grid;place-items:center;
+  transition:opacity .4s ease,visibility .4s ease;
+}
+.page-loader.hide{opacity:0;visibility:hidden}
+.page-loader::after{
+  content:"";width:60px;height:60px;border-radius:50%;
+  border:3px solid var(--line);border-top-color:var(--cyan);
+  animation:loaderSpin 1s linear infinite;
+}
+@keyframes loaderSpin{to{transform:rotate(360deg)}}
+
+/* READ PROGRESS */
+.read-progress{
+  position:fixed;top:0;left:0;height:2px;width:0%;z-index:110;
+  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));
+  box-shadow:0 0 12px rgba(62,142,247,.6);
+  transition:width .1s linear;pointer-events:none;
+}
+
+/* BACKGROUND */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 15% -10%, rgba(62,142,247,.14), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 10%, rgba(155,107,242,.11), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 50% 110%, rgba(55,183,255,.09), transparent 60%);
+  animation:bgAurora 24s ease-in-out infinite;
+}
+[data-theme="light"] body::before{
+  background:
+    radial-gradient(ellipse 80% 50% at 15% -10%, rgba(62,142,247,.18), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 10%, rgba(155,107,242,.14), transparent 55%);
+}
+@keyframes bgAurora{
+  0%,100%{transform:translate3d(0,0,0) scale(1);opacity:1}
+  33%{transform:translate3d(-2%,1%,0) scale(1.04);opacity:.92}
+  66%{transform:translate3d(2%,-1%,0) scale(1.02);opacity:.98}
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(62,142,247,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62,142,247,.05) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 25%, black, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 25%, black, transparent 80%);
+  animation:gridDrift 40s linear infinite;
+}
+@keyframes gridDrift{from{background-position:0 0,0 0}to{background-position:48px 48px,48px 48px}}
+
+.particles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.particle{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 8px currentColor;opacity:0;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translate3d(0,105vh,0) scale(.4);opacity:0}
+  10%{opacity:.9}
+  70%{opacity:.5}
+  100%{transform:translate3d(var(--dx,30px),-15vh,0) scale(1.4);opacity:0}
+}
+
+h1,h2,h3,h4,.num,.page-title,.calc-total strong{
+  font-family:'Sora',system-ui,sans-serif;
+  letter-spacing:-.03em;line-height:1.15;font-weight:700;
+}
+h1{font-weight:800;letter-spacing:-.045em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-feature-settings:'tnum','zero'}
+
+/* === ЗАГОЛОВОК HERO — градиент в тёмной, сплошной цвет в светлой === */
+.grad{
+  background:linear-gradient(110deg, #F0F4FF 0%, var(--cyan) 35%, var(--violet) 70%, #F0F4FF 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  animation:gradientShift 8s ease-in-out infinite;
+  filter:none;
+}
+[data-theme="light"] .grad{
+  /* В светлой теме — сплошной тёмный цвет, никаких прозрачных букв */
+  background:none;
+  -webkit-background-clip:initial;background-clip:initial;
+  color:#0B2A5B;
+  -webkit-text-fill-color:#0B2A5B;
+  animation:none;
+  text-shadow:0 1px 0 rgba(255,255,255,.4);
+}
+@keyframes gradientShift{0%,100%{background-position:0% center}50%{background-position:100% center}}
+
+.grad-cyan{
+  background:linear-gradient(110deg, var(--cyan), var(--blue));
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+[data-theme="light"] .grad-cyan{
+  background:none;color:#0B4A78;-webkit-text-fill-color:#0B4A78;
+}
+.grad-violet{
+  background:linear-gradient(110deg, var(--violet), var(--pink));
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+[data-theme="light"] .grad-violet{
+  background:none;color:#4A2B8C;-webkit-text-fill-color:#4A2B8C;
+}
+
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px;position:relative;z-index:2}
+section{padding:52px 0;position:relative}
+section+section::before{
+  content:"";position:absolute;left:12%;right:12%;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(62,142,247,.18),rgba(155,107,242,.18),transparent);
+  transform-origin:center;animation:dividerGlow 6s ease-in-out infinite;
+}
+@keyframes dividerGlow{50%{transform:scaleX(.85);opacity:.7}}
+
+/* HEADER */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:var(--header-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid rgba(62,142,247,.14);
+  transition:background var(--t-med) var(--ease);
+}
+.header::after{
+  content:"";position:absolute;left:-25%;bottom:-1px;
+  width:25%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),transparent);
+  animation:laserSweep 6s linear infinite;
+}
+@keyframes laserSweep{to{left:125%}}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  height:68px;padding:0 22px;max-width:1280px;margin:0 auto;
+}
+
+.brandmark{
+  font-family:'Sora',system-ui,sans-serif;
+  font-size:1.15rem;font-weight:800;letter-spacing:-.04em;
+  display:inline-flex;align-items:center;position:relative;
+  transition:transform var(--t-med) var(--ease);
+  background:var(--brand-grad);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  animation:brandGradient 6s ease-in-out infinite;
+  filter:var(--brand-shadow);
+  padding-left:14px;
+}
+@keyframes brandGradient{0%,100%{background-position:0% center}50%{background-position:100% center}}
+.brandmark:hover{transform:translateY(-1px)}
+body:not([data-theme="light"]) .brandmark:hover{
+  filter:drop-shadow(0 0 22px rgba(155,107,242,.6));
+}
+[data-theme="light"] .brandmark:hover{
+  filter:drop-shadow(0 2px 8px rgba(62,142,247,.35));
+}
+.brandmark::before{
+  content:"";position:absolute;left:0;top:50%;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 12px var(--green);
+  transform:translateY(-50%);
+  animation:pulseDot 2s ease-in-out infinite;
+}
+[data-theme="light"] .brandmark::before{
+  background:#2F8B3A;box-shadow:0 0 8px rgba(47,139,58,.4);
+}
+@keyframes pulseDot{
+  0%,100%{opacity:1;transform:translateY(-50%) scale(1)}
+  50%{opacity:.4;transform:translateY(-50%) scale(.75)}
+}
+
+.nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.nav-link{
+  padding:9px 14px;border-radius:var(--r-sm);
+  color:var(--muted);font-size:.85rem;font-weight:500;
+  transition:all var(--t-fast) var(--ease);
+  border:1px solid transparent;background:none;
+  position:relative;overflow:hidden;
+}
+.nav-link::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);
+  transform:translateX(-120%);transition:transform .55s var(--ease);
+  pointer-events:none;
+}
+.nav-link:hover::before{transform:translateX(120%)}
+.nav-link:hover{
+  color:var(--text);background:rgba(62,142,247,.08);
+  border-color:rgba(62,142,247,.22);transform:translateY(-1px);
+}
+.nav-link.active{
+  color:#fff;
+  background:linear-gradient(135deg,rgba(62,142,247,.2),rgba(155,107,242,.14));
+  border-color:rgba(62,142,247,.5);
+  box-shadow:0 6px 22px rgba(62,142,247,.14), inset 0 1px 0 rgba(255,255,255,.08);
+}
+[data-theme="light"] .nav-link.active{color:var(--text)}
+
+.header-actions{display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+.icon-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 12px;border-radius:var(--r-sm);
+  border:1px solid rgba(94,194,106,.38);
+  background:rgba(94,194,106,.08);
+  color:#D8F7DC;font-size:.78rem;font-weight:600;
+  transition:all var(--t-fast) var(--ease);
+  cursor:pointer;text-decoration:none;
+}
+[data-theme="light"] .icon-btn{color:#1F4A29;border-color:rgba(58,140,72,.35);background:rgba(94,194,106,.16)}
+.icon-btn:hover{background:rgba(94,194,106,.18);border-color:rgba(94,194,106,.65);transform:translateY(-2px);box-shadow:0 10px 24px rgba(94,194,106,.2)}
+.icon-btn.call{
+  border-color:rgba(62,142,247,.5);
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  color:#fff;
+}
+.icon-btn.call:hover{box-shadow:0 10px 26px rgba(62,142,247,.5)}
+.icon-btn.theme-toggle{
+  border-color:var(--line-bright);background:var(--panel-2);
+  color:var(--text);padding:9px 11px;
+}
+.icon-btn.theme-toggle:hover{border-color:var(--cyan);box-shadow:0 10px 24px rgba(55,183,255,.2)}
+.icon-btn .label-text{display:inline}
+@media(max-width:1100px){.icon-btn .label-text{display:none}}
+@media(max-width:680px){.icon-btn .label-text{display:none}.icon-btn{padding:9px 10px}}
+@media(max-width:480px){.icon-btn.hide-mobile{display:none}}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:14px 24px;border-radius:12px;
+  font-size:.95rem;font-weight:600;letter-spacing:-.012em;
+  border:1px solid transparent;
+  transition:all var(--t-med) var(--ease);
+  cursor:pointer;white-space:nowrap;
+  position:relative;overflow:hidden;isolation:isolate;
+  text-decoration:none;
+}
+.btn::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.22) 50%,transparent 75%);
+  transform:translateX(-120%);transition:transform .7s var(--ease);
+  pointer-events:none;
+}
+.btn:hover::before{transform:translateX(120%)}
+.btn:active{transform:scale(.98)}
+.btn-primary{
+  background:linear-gradient(135deg, #4A96FA 0%, var(--blue) 40%, var(--violet) 100%);
+  background-size:200% auto;color:#fff;
+  box-shadow:0 8px 24px rgba(62,142,247,.28), inset 0 1px 0 rgba(255,255,255,.2);
+  animation:btnGradient 6s ease-in-out infinite;
+}
+@keyframes btnGradient{0%,100%{background-position:0% center}50%{background-position:100% center}}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(62,142,247,.45), inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-ghost{background:var(--panel-2);color:var(--text);border-color:var(--line-bright);backdrop-filter:blur(8px)}
+.btn-ghost:hover{border-color:rgba(62,142,247,.6);background:rgba(62,142,247,.1);transform:translateY(-3px);box-shadow:0 12px 30px rgba(62,142,247,.18)}
+.btn-wa{
+  background:linear-gradient(135deg,rgba(94,194,106,.16),rgba(94,194,106,.08));
+  color:#D8F7DC;border-color:rgba(94,194,106,.42);
+}
+[data-theme="light"] .btn-wa{color:#1F4A29}
+.btn-wa:hover{background:linear-gradient(135deg,rgba(94,194,106,.26),rgba(94,194,106,.14));border-color:rgba(94,194,106,.7);transform:translateY(-3px);box-shadow:0 14px 32px rgba(94,194,106,.28)}
+.btn-tg{
+  background:linear-gradient(135deg,rgba(55,183,255,.16),rgba(55,183,255,.06));
+  color:#BFE4FF;border-color:rgba(55,183,255,.4);
+}
+[data-theme="light"] .btn-tg{color:#0B4A78}
+.btn-tg:hover{background:linear-gradient(135deg,rgba(55,183,255,.26),rgba(55,183,255,.14));border-color:rgba(55,183,255,.7);transform:translateY(-3px);box-shadow:0 14px 32px rgba(55,183,255,.3)}
+.btn-call{
+  background:linear-gradient(135deg,rgba(62,142,247,.16),rgba(155,107,242,.08));
+  color:var(--text);border-color:rgba(62,142,247,.4);
+}
+.btn-call:hover{background:linear-gradient(135deg,rgba(62,142,247,.26),rgba(155,107,242,.14));border-color:rgba(62,142,247,.7);transform:translateY(-3px);box-shadow:0 14px 32px rgba(62,142,247,.3)}
+.btn-block{width:100%}
+
+/* HERO */
+.hero{padding:72px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+@media(max-width:840px){.hero-grid{grid-template-columns:1fr}}
+.eyebrow{
+  color:var(--muted);font-size:.78rem;margin:0 0 14px;
+  text-transform:uppercase;letter-spacing:.18em;font-weight:600;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.hero h1{font-size:clamp(2rem,5.5vw,3.2rem);line-height:1.05;margin:0 0 20px;font-weight:800;letter-spacing:-.045em}
+.hero .sub{color:var(--text-soft);font-size:1.06rem;max-width:54ch;margin:0 0 26px;line-height:1.65}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+.online-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:999px;
+  background:rgba(94,194,106,.1);
+  border:1px solid rgba(94,194,106,.35);
+  color:#BAF2C0;font-size:.82rem;font-weight:500;
+  margin-bottom:16px;
+}
+[data-theme="light"] .online-badge{color:#1F5A2C;background:rgba(94,194,106,.15)}
+.online-dot{
+  width:8px;height:8px;border-radius:50%;background:#5EC26A;
+  box-shadow:0 0 10px #5EC26A;
+  animation:onlinePulse 1.8s ease-in-out infinite;
+}
+@keyframes onlinePulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.85)}
+}
+
+.live-viewers{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:999px;
+  background:rgba(62,142,247,.08);
+  border:1px solid rgba(62,142,247,.25);
+  color:var(--muted);font-size:.78rem;
+  margin-top:12px;
+}
+.live-viewers b{color:var(--cyan);font-weight:700}
+
+.guarantee-badge{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(94,194,106,.08),rgba(62,142,247,.06));
+  border:1px solid rgba(94,194,106,.3);
+  color:var(--green);
+  margin-top:20px;max-width:520px;
+}
+[data-theme="light"] .guarantee-badge{color:#2F8B3A;background:linear-gradient(135deg,rgba(94,194,106,.14),rgba(62,142,247,.08))}
+.guarantee-badge strong{display:block;color:var(--text);font-size:.95rem;font-family:'Sora',sans-serif;letter-spacing:-.02em;margin-bottom:2px}
+.guarantee-badge span{display:block;color:var(--muted);font-size:.82rem;line-height:1.4}
+
+.hero-art{display:flex;justify-content:center;align-items:center;min-height:300px;position:relative;isolation:isolate}
+.hero-art .ring{position:absolute;border-radius:50%;pointer-events:none;will-change:transform}
+.hero-art .ring-1{width:280px;height:280px;border:1px solid rgba(62,142,247,.18);box-shadow:inset 0 0 60px rgba(62,142,247,.08);animation:spin 26s linear infinite}
+.hero-art .ring-2{width:220px;height:220px;border:1px dashed rgba(155,107,242,.35);animation:spin 40s linear infinite reverse}
+.hero-art .ring-3{width:340px;height:340px;border:1px solid rgba(55,183,255,.1);animation:spin 55s linear infinite}
+.hero-art .ring-1::before,
+.hero-art .ring-3::before{
+  content:"";position:absolute;top:-3px;left:50%;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 14px var(--cyan);
+  transform:translateX(-50%);
+}
+.hero-art .ring-3::before{background:var(--violet);box-shadow:0 0 14px var(--violet)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-art svg{width:100%;max-width:320px;position:relative;z-index:2;filter:drop-shadow(0 0 40px rgba(62,142,247,.22));animation:heroFloat 6s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.badges span{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--text-soft);font-size:.82rem;
+  padding:8px 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--panel-2);
+  backdrop-filter:blur(8px);transition:all var(--t-fast) var(--ease);
+}
+.badges span:hover{border-color:rgba(62,142,247,.45);transform:translateY(-2px);color:var(--text)}
+.badges .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulseDot 2.4s ease-in-out infinite}
+.badges span:nth-child(2) .dot{background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation-delay:.4s}
+.badges span:nth-child(3) .dot{background:var(--violet);box-shadow:0 0 10px var(--violet);animation-delay:.8s}
+.badges span:nth-child(4) .dot{background:var(--amber);box-shadow:0 0 10px var(--amber);animation-delay:1.2s}
+
+.share-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+.share-label{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;font-weight:600}
+.share-btn{
+  width:36px;height:36px;border-radius:10px;
+  display:grid;place-items:center;
+  border:1px solid var(--line);background:var(--panel-2);
+  color:var(--muted);font-size:1rem;
+  transition:all var(--t-fast) var(--ease);cursor:pointer;
+}
+.share-btn:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px);box-shadow:0 8px 20px rgba(55,183,255,.25)}
+
+/* CARDS */
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:34px}
+@media(max-width:640px){.choice-grid{grid-template-columns:1fr}}
+.choice-card{
+  position:relative;padding:30px 26px;border-radius:var(--r-xl);
+  background:var(--card-bg);border:1px solid var(--line);
+  text-align:left;cursor:pointer;overflow:hidden;
+  transition:all var(--t-med) var(--ease);
+  isolation:isolate;color:var(--text);
+}
+.choice-card::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:linear-gradient(120deg,transparent 15%,rgba(62,142,247,.6),rgba(155,107,242,.5),transparent 85%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity var(--t-med) var(--ease);
+  pointer-events:none;z-index:3;
+}
+.choice-card::after{
+  content:"";position:absolute;width:220px;height:220px;
+  right:-90px;top:-90px;border-radius:50%;
+  background:radial-gradient(circle,rgba(62,142,247,.22),transparent 68%);
+  filter:blur(6px);transition:all var(--t-slow) var(--ease);
+  pointer-events:none;
+}
+.choice-card.ps::after{background:radial-gradient(circle,rgba(155,107,242,.28),transparent 68%)}
+.choice-card:hover{transform:translateY(-6px);border-color:rgba(62,142,247,.5);box-shadow:0 24px 60px rgba(0,0,0,.35), 0 0 40px rgba(62,142,247,.1)}
+.choice-card:hover::before{opacity:1}
+.choice-card:hover::after{transform:scale(1.3) rotate(15deg)}
+.choice-icon{font-size:2.2rem;margin-bottom:16px;display:inline-block;position:relative;z-index:1;transition:transform var(--t-med) var(--ease-bounce);filter:drop-shadow(0 0 20px rgba(62,142,247,.3))}
+.choice-card:hover .choice-icon{transform:scale(1.15) rotate(-6deg);filter:drop-shadow(0 0 30px rgba(62,142,247,.5))}
+.choice-card h3{margin:0 0 10px;font-size:1.35rem;position:relative;z-index:1;letter-spacing:-.03em}
+.choice-card p{margin:0;color:var(--muted);line-height:1.55;font-size:.92rem;position:relative;z-index:1}
+
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:840px){.feature-grid{grid-template-columns:repeat(2,1fr)}}
+.feature{
+  padding:24px 18px;border-radius:var(--r-md);
+  text-align:center;background:var(--panel);border:1px solid var(--line);
+  transition:all var(--t-med) var(--ease);position:relative;overflow:hidden;
+}
+.feature::before{
+  content:"";position:absolute;top:0;left:50%;
+  width:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet));
+  transform:translateX(-50%);transition:width var(--t-med) var(--ease);
+}
+.feature:hover{transform:translateY(-5px);border-color:rgba(62,142,247,.4);box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.feature:hover::before{width:70%}
+.feature .ico{font-size:1.6rem;margin-bottom:12px;display:inline-block;transition:transform var(--t-med) var(--ease-bounce)}
+.feature:hover .ico{transform:scale(1.2) translateY(-3px)}
+.feature strong{display:block;font-size:.98rem;margin-bottom:6px;font-family:'Sora',sans-serif;letter-spacing:-.02em}
+.feature span{display:block;color:var(--muted);font-size:.82rem;line-height:1.5}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative}
+@media(max-width:840px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.steps{grid-template-columns:1fr}}
+.steps::before{
+  content:"";position:absolute;left:8%;right:8%;top:38px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),var(--cyan),transparent);
+  opacity:.35;animation:timelinePulse 4s ease-in-out infinite;z-index:0;
+}
+@keyframes timelinePulse{50%{opacity:.85;box-shadow:0 0 20px rgba(62,142,247,.5)}}
+@media(max-width:840px){.steps::before{display:none}}
+.step{padding:24px 20px;border-radius:var(--r-md);background:var(--panel);border:1px solid var(--line);transition:all var(--t-med) var(--ease);position:relative;z-index:1}
+.step:hover{transform:translateY(-5px);border-color:rgba(62,142,247,.45);box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.step-num{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(62,142,247,.18),rgba(155,107,242,.12));
+  color:var(--cyan);font-family:'Sora',sans-serif;
+  font-weight:700;font-size:.95rem;margin-bottom:14px;
+  border:1px solid rgba(62,142,247,.3);
+  transition:all var(--t-med) var(--ease-bounce);
+}
+[data-theme="light"] .step-num{color:#0B4A78}
+.step:hover .step-num{transform:scale(1.12);color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 26px rgba(62,142,247,.55)}
+.step h3{margin:0 0 8px;font-size:1rem;letter-spacing:-.02em}
+.step p{margin:0;color:var(--muted);font-size:.85rem;line-height:1.55}
+
+.section-head{margin-bottom:28px}
+.section-head h2{font-size:clamp(1.5rem,3vw,1.9rem);margin:0 0 8px;letter-spacing:-.035em;font-weight:800}
+.section-head p{color:var(--muted);margin:0;font-size:.96rem;max-width:60ch;line-height:1.6}
+
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:840px){.portfolio-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.portfolio-grid{grid-template-columns:1fr}}
+.portfolio-item{
+  position:relative;overflow:hidden;border-radius:var(--r-md);
+  border:1px solid var(--line);aspect-ratio:4/3;cursor:pointer;
+  transition:all var(--t-med) var(--ease);background:var(--panel-2);
+}
+.portfolio-item:hover{transform:translateY(-4px);border-color:rgba(62,142,247,.5);box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.portfolio-visual{
+  position:absolute;inset:0;display:grid;place-items:center;font-size:3.2rem;
+  background:radial-gradient(circle at 30% 30%, rgba(62,142,247,.25), transparent 60%),
+             linear-gradient(135deg,#0F1729,#070B18);
+  transition:transform var(--t-med) var(--ease);
+}
+[data-theme="light"] .portfolio-visual{
+  background:radial-gradient(circle at 30% 30%, rgba(62,142,247,.18), transparent 60%),
+             linear-gradient(135deg,#F8FAFF,#EDF2FB);
+}
+.portfolio-item:hover .portfolio-visual{transform:scale(1.08)}
+.portfolio-meta{
+  position:absolute;left:0;right:0;bottom:0;padding:14px 16px;
+  background:linear-gradient(180deg,transparent,rgba(5,8,15,.92));
+}
+[data-theme="light"] .portfolio-meta{background:linear-gradient(180deg,transparent,rgba(10,21,38,.85))}
+.portfolio-meta strong{display:block;font-family:'Sora',sans-serif;font-size:.95rem;color:#fff}
+.portfolio-meta span{display:block;color:rgba(255,255,255,.7);font-size:.78rem;margin-top:2px}
+.portfolio-tag{
+  position:absolute;top:12px;left:12px;
+  padding:5px 10px;border-radius:999px;
+  font-size:.7rem;font-weight:600;letter-spacing:.04em;
+  background:rgba(5,8,15,.75);color:var(--cyan);
+  border:1px solid rgba(55,183,255,.4);backdrop-filter:blur(6px);
+}
+.portfolio-tag.ps3{color:#FFA3B2;border-color:rgba(224,67,92,.5)}
+.portfolio-tag.ps4{color:#9BC7FF;border-color:rgba(62,142,247,.5)}
+.portfolio-tag.ps5{color:#D3B4FF;border-color:rgba(155,107,242,.5)}
+
+.win-panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;position:relative}
+.win-panel::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(62,142,247,.5),transparent)}
+.win-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:16px;
+  padding:18px 24px;border-bottom:1px solid var(--line);
+  align-items:center;transition:all var(--t-fast) var(--ease);position:relative;
+}
+.win-row::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--cyan),var(--violet));
+  transform:scaleY(0);transform-origin:top;
+  transition:transform var(--t-med) var(--ease);
+}
+.win-row:hover{background:rgba(62,142,247,.04);padding-left:28px}
+.win-row:hover::before{transform:scaleY(1)}
+.win-row:last-child{border-bottom:none}
+.winmark{width:24px;height:24px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;flex:none}
+.winmark i{display:block;border-radius:2px;transition:transform var(--t-fast) var(--ease)}
+.win-row:hover .winmark i:nth-child(1){transform:translate(-1px,-1px)}
+.win-row:hover .winmark i:nth-child(4){transform:translate(1px,1px)}
+.winmark i:nth-child(1){background:#F35325}
+.winmark i:nth-child(2){background:#81BC06}
+.winmark i:nth-child(3){background:#05A6F0}
+.winmark i:nth-child(4){background:#FFBA08}
+.win-row .name{font-weight:600;font-size:1rem;font-family:'Sora',sans-serif;letter-spacing:-.02em}
+.win-row .desc{color:var(--muted);font-size:.85rem;margin-top:3px}
+.win-row .num{color:var(--cyan);font-size:1.05rem;white-space:nowrap;font-weight:700;font-family:'JetBrains Mono',monospace;text-shadow:0 0 18px rgba(55,183,255,.25)}
+[data-theme="light"] .win-row .num{color:#0B4A78;text-shadow:none}
+
+.ps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:840px){.ps-grid{grid-template-columns:1fr}}
+.ps-card{
+  padding:24px;border-radius:var(--r-lg);
+  background:var(--panel);border:1px solid var(--line);
+  border-top:3px solid var(--c,var(--blue));
+  transition:all var(--t-med) var(--ease);
+  position:relative;overflow:hidden;
+}
+.ps-card::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% -20%, color-mix(in srgb,var(--c) 20%,transparent), transparent 60%);
+  opacity:0;transition:opacity var(--t-med) var(--ease);pointer-events:none;
+}
+.ps-card:hover{
+  transform:translateY(-6px);
+  border-color:color-mix(in srgb,var(--c) 50%,var(--line));
+  box-shadow:0 24px 50px -16px color-mix(in srgb,var(--c) 45%,transparent), 0 0 40px color-mix(in srgb,var(--c) 12%,transparent);
+}
+.ps-card:hover::before{opacity:1}
+.ps-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;position:relative;z-index:1}
+.ps-head h3{margin:0;font-size:1.35rem;color:var(--c);letter-spacing:-.03em;text-shadow:0 0 20px color-mix(in srgb,var(--c) 40%,transparent)}
+.ps-head svg{width:28px;height:28px;stroke:var(--c);flex:none;transition:transform var(--t-med) var(--ease-bounce);filter:drop-shadow(0 0 8px color-mix(in srgb,var(--c) 50%,transparent))}
+.ps-card:hover .ps-head svg{transform:rotate(-10deg) scale(1.12)}
+.ps-line{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:.92rem;position:relative;z-index:1;transition:padding var(--t-fast) var(--ease)}
+.ps-line:hover{padding-left:4px}
+.ps-line:last-child{border-bottom:none}
+.ps-line .num{color:var(--c);font-weight:600;white-space:nowrap;font-family:'JetBrains Mono',monospace;font-size:.92rem;text-shadow:0 0 14px color-mix(in srgb,var(--c) 35%,transparent)}
+
+/* CALCULATOR */
+.calculator{
+  background:var(--card-bg);
+  border:1px solid rgba(62,142,247,.24);
+  border-radius:var(--r-xl);padding:28px;
+  position:relative;overflow:hidden;
+}
+.calculator::before{
+  content:"";position:absolute;top:-100px;right:-100px;
+  width:250px;height:250px;border-radius:50%;
+  background:radial-gradient(circle,rgba(62,142,247,.15),transparent 68%);
+  pointer-events:none;
+}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative;z-index:1}
+@media(max-width:640px){.calc-grid{grid-template-columns:1fr}}
+.calc-label{display:block;color:var(--muted);font-size:.78rem;margin:0 0 8px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.quick-chips{
+  display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;
+  scrollbar-width:none;margin-bottom:4px;
+  position:relative;z-index:1;
+}
+.quick-chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:none;padding:8px 14px;border-radius:999px;
+  background:var(--panel-2);border:1px solid var(--line);
+  color:var(--muted);font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:all var(--t-fast) var(--ease);
+  white-space:nowrap;
+}
+.chip:hover{color:var(--text);border-color:var(--cyan);transform:translateY(-2px)}
+.chip.active{
+  background:linear-gradient(135deg,rgba(62,142,247,.2),rgba(155,107,242,.14));
+  color:#fff;border-color:rgba(62,142,247,.55);
+  box-shadow:0 6px 18px rgba(62,142,247,.2);
+}
+[data-theme="light"] .chip.active{color:var(--text)}
+.select,.input,.textarea{
+  width:100%;border:1px solid var(--line);background:var(--panel-2);
+  color:var(--text);padding:13px 16px;border-radius:var(--r-sm);
+  font:500 .92rem 'IBM Plex Sans',sans-serif;outline:none;
+  transition:all var(--t-fast) var(--ease);letter-spacing:-.01em;
+}
+.select:hover,.input:hover,.textarea:hover{border-color:var(--line-bright)}
+.select:focus,.input:focus,.textarea:focus{
+  border-color:var(--cyan);background:rgba(55,183,255,.04);
+  box-shadow:0 0 0 3px rgba(55,183,255,.12), 0 0 24px rgba(55,183,255,.1);
+}
+.textarea{min-height:110px;resize:vertical;font-family:inherit}
+.calc-total{
+  margin-top:22px;padding:18px 22px;border-radius:var(--r-md);
+  background:linear-gradient(135deg,rgba(62,142,247,.1),rgba(155,107,242,.06));
+  border:1px solid rgba(62,142,247,.22);
+  display:flex;align-items:center;justify-content:space-between;gap:15px;
+  position:relative;overflow:hidden;
+}
+.calc-total::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.08),transparent 70%);
+  transform:translateX(-100%);animation:totalSweep 6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes totalSweep{0%,60%{transform:translateX(-100%)}80%,100%{transform:translateX(100%)}}
+.calc-total span{color:var(--muted);font-size:.92rem;position:relative;z-index:1}
+.calc-total strong{
+  font:700 1.6rem 'Sora',sans-serif;color:var(--cyan);letter-spacing:-.04em;
+  text-shadow:0 0 24px rgba(55,183,255,.35);position:relative;z-index:1;
+}
+[data-theme="light"] .calc-total strong{color:#0B4A78;text-shadow:none}
+.calc-note{color:var(--muted);font-size:.78rem;margin:12px 0 0;line-height:1.55}
+
+/* CART */
+.cart-list{display:grid;gap:10px;margin-top:18px;position:relative;z-index:1}
+.cart-list:empty::before{
+  content:'Корзина пуста — добавьте услугу выше.';
+  color:var(--muted);font-size:.86rem;padding:14px 0;display:block;
+  text-align:center;border:1px dashed var(--line);
+  border-radius:var(--r-sm);background:var(--panel-2);
+}
+.cart-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 18px;border-radius:var(--r-sm);
+  background:var(--panel-2);border:1px solid var(--line);
+  transition:all var(--t-fast) var(--ease);
+  animation:cartIn .4s var(--ease-bounce);
+}
+@keyframes cartIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+.cart-row:hover{border-color:rgba(62,142,247,.4);transform:translateX(4px)}
+.cart-info{min-width:0;flex:1}
+.cart-title{font-size:.9rem;font-weight:500}
+.cart-price{color:var(--cyan);font-weight:700;white-space:nowrap;font-size:.98rem;font-family:'JetBrains Mono',monospace;text-shadow:0 0 14px rgba(55,183,255,.3)}
+[data-theme="light"] .cart-price{color:#0B4A78;text-shadow:none}
+.cart-remove{border:0;background:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:6px 10px;border-radius:8px;transition:all var(--t-fast) var(--ease);line-height:1}
+.cart-remove:hover{color:#fff;background:rgba(224,67,92,.2);transform:rotate(90deg)}
+
+.recommendations{
+  margin-top:16px;padding:14px;border-radius:12px;
+  background:var(--panel-2);border:1px dashed rgba(62,142,247,.3);
+  position:relative;z-index:1;
+}
+.recommendations .rec-title{
+  font-size:.78rem;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.1em;font-weight:600;margin-bottom:10px;
+}
+.recommendations button{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  margin-top:6px;padding:10px 14px;font-size:.85rem;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);
+  color:var(--text);cursor:pointer;
+  transition:all var(--t-fast) var(--ease);
+}
+.recommendations button:hover{border-color:var(--cyan);transform:translateX(4px)}
+.recommendations button span:last-child{color:var(--cyan);font-family:'JetBrains Mono',monospace;font-weight:600}
+[data-theme="light"] .recommendations button span:last-child{color:#0B4A78}
+
+/* FORM */
+.form{display:grid;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:26px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}}
+.form-status{display:none;padding:14px 18px;border-radius:var(--r-sm);font-size:.88rem;line-height:1.5;animation:statusIn .35s var(--ease-bounce)}
+@keyframes statusIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.form-status.show{display:block}
+.form-status.success{background:linear-gradient(135deg,rgba(94,194,106,.14),rgba(94,194,106,.06));border:1px solid rgba(94,194,106,.38);color:#BAF2C0}
+[data-theme="light"] .form-status.success{color:#1F5A2C}
+.form-status.error{background:linear-gradient(135deg,rgba(224,67,92,.14),rgba(224,67,92,.06));border:1px solid rgba(224,67,92,.38);color:#FFB8C4}
+[data-theme="light"] .form-status.error{color:#A01D31}
+
+.review-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+@media(max-width:700px){.review-grid{grid-template-columns:1fr}}
+
+.faq{display:grid;gap:10px}
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:18px 20px;transition:all var(--t-med) var(--ease);position:relative;overflow:hidden}
+.faq details::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--cyan),var(--violet));
+  transform:scaleY(0);transform-origin:top;
+  transition:transform var(--t-med) var(--ease);
+}
+.faq details:hover{border-color:rgba(62,142,247,.4);transform:translateX(4px)}
+.faq details[open]{border-color:rgba(62,142,247,.45);background:var(--card-bg);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.faq details[open]::before{transform:scaleY(1)}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;position:relative;padding-right:36px;letter-spacing:-.015em;font-family:'Sora',sans-serif;font-size:.98rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"+";position:absolute;right:0;top:50%;
+  transform:translateY(-50%);color:var(--cyan);
+  font-size:1.4rem;font-weight:300;line-height:1;
+  transition:all var(--t-med) var(--ease);
+  width:24px;height:24px;display:grid;place-items:center;
+  border-radius:50%;background:rgba(55,183,255,.1);
+  border:1px solid rgba(55,183,255,.25);
+}
+.faq details[open] summary::after{
+  content:"−";transform:translateY(-50%) rotate(180deg);
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  color:#fff;border-color:transparent;
+  box-shadow:0 0 18px rgba(62,142,247,.5);
+}
+.faq details p{color:var(--muted);line-height:1.65;margin:14px 0 0;font-size:.9rem;animation:faqIn .35s var(--ease)}
+@keyframes faqIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.quick-contact{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:32px;border-radius:var(--r-xl);
+  background:linear-gradient(135deg,rgba(62,142,247,.14),rgba(155,107,242,.1) 60%,rgba(55,183,255,.08));
+  border:1px solid rgba(62,142,247,.28);
+  position:relative;overflow:hidden;
+}
+.quick-contact::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 50%,rgba(62,142,247,.18),transparent 50%), radial-gradient(circle at 80% 50%,rgba(155,107,242,.15),transparent 50%);
+  pointer-events:none;animation:contactGlow 8s ease-in-out infinite alternate;
+}
+@keyframes contactGlow{from{opacity:.6;transform:scale(1)}to{opacity:1;transform:scale(1.05)}}
+@media(max-width:640px){.quick-contact{flex-direction:column;align-items:stretch;text-align:center}}
+.quick-contact h2{margin:0 0 8px;font-size:1.4rem;position:relative;z-index:1;letter-spacing:-.03em}
+.quick-contact p{margin:0;color:var(--muted);position:relative;z-index:1}
+.quick-contact .btn{position:relative;z-index:1}
+
+.contact-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+@media(max-width:640px){.contact-info-grid{grid-template-columns:1fr}}
+.contact-info-card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:22px;text-align:center;
+  transition:all var(--t-med) var(--ease);
+}
+.contact-info-card:hover{transform:translateY(-4px);border-color:rgba(62,142,247,.45);box-shadow:0 16px 36px rgba(0,0,0,.25)}
+.contact-info-card .ci-icon{font-size:1.8rem;margin-bottom:10px;display:block}
+.contact-info-card h3{margin:0 0 8px;font-size:1rem;letter-spacing:-.02em}
+.contact-info-card a{color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:600;word-break:break-all}
+[data-theme="light"] .contact-info-card a{color:#0B4A78}
+.contact-info-card a:hover{text-shadow:0 0 14px rgba(55,183,255,.5)}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:200;display:none;place-items:center;padding:20px;background:rgba(3,6,15,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.modal.show{display:grid;animation:fadeIn .25s var(--ease)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{
+  width:min(540px,100%);padding:32px;border-radius:var(--r-xl);
+  background:var(--card-bg);border:1px solid var(--line-bright);
+  box-shadow:0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(62,142,247,.1) inset;
+  position:relative;animation:modalIn .4s var(--ease-bounce);
+  max-height:90vh;overflow-y:auto;
+}
+@keyframes modalIn{from{transform:translateY(30px) scale(.95);opacity:0}to{transform:none;opacity:1}}
+.modal-box::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),transparent)}
+.modal-close{
+  position:absolute;right:18px;top:16px;
+  border:0;background:none;color:var(--muted);
+  font-size:1.7rem;cursor:pointer;line-height:1;
+  padding:6px 10px;border-radius:10px;
+  transition:all var(--t-fast) var(--ease);
+}
+.modal-close:hover{color:var(--text);background:rgba(255,255,255,.06);transform:rotate(90deg)}
+.modal-box h2{margin:0 40px 10px 0;font-size:1.4rem;letter-spacing:-.03em}
+.modal-box p{color:var(--muted);line-height:1.55;margin:0 0 18px;font-size:.92rem}
+
+.search-result-btn{
+  width:100%;display:flex;align-items:center;gap:12px;
+  padding:12px 16px;background:var(--panel-2);border:1px solid var(--line);
+  border-radius:var(--r-sm);color:var(--text);
+  font-size:.9rem;cursor:pointer;text-align:left;
+  transition:all var(--t-fast) var(--ease);
+}
+.search-result-btn:hover{border-color:var(--cyan);transform:translateX(4px)}
+
+.toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
+  padding:14px 22px;border-radius:12px;
+  background:var(--panel);border:1px solid var(--line-bright);
+  color:var(--text);font-size:.9rem;font-weight:500;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  opacity:0;pointer-events:none;z-index:300;
+  transition:all var(--t-med) var(--ease-bounce);
+  max-width:90vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.back-top{
+  position:fixed;right:20px;bottom:90px;z-index:88;
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--panel);border:1px solid var(--line-bright);
+  color:var(--text);font-size:1.2rem;cursor:pointer;
+  opacity:0;pointer-events:none;
+  transition:all var(--t-med) var(--ease-bounce);
+}
+.back-top.show{opacity:1;pointer-events:auto}
+.back-top:hover{transform:translateY(-4px);border-color:var(--cyan);box-shadow:0 10px 28px rgba(55,183,255,.25)}
+@media(max-width:840px){.back-top{bottom:154px;right:14px;width:40px;height:40px}}
+
+footer{
+  color:var(--muted);text-align:center;font-size:.82rem;
+  padding:44px 22px 34px;border-top:1px solid var(--line);
+  margin-top:50px;position:relative;z-index:2;
+}
+footer::before{content:"";position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(62,142,247,.5),transparent)}
+footer strong{color:var(--text);font-family:'Sora',sans-serif;letter-spacing:-.02em}
+footer a{color:var(--cyan);transition:all var(--t-fast) var(--ease)}
+[data-theme="light"] footer a{color:#0B4A78}
+footer a:hover{color:var(--violet);text-shadow:0 0 14px rgba(155,107,242,.5)}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.footer-links a{font-size:.82rem}
+
+.floating-wa{
+  position:fixed;right:20px;bottom:20px;z-index:90;
+  width:58px;height:58px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,#5EC26A,#3DA84A);
+  color:#fff;font-size:1.6rem;
+  box-shadow:0 12px 36px rgba(94,194,106,.5);
+  transition:all var(--t-med) var(--ease-bounce);
+  animation:waPulse 3s ease-in-out infinite;
+}
+@keyframes waPulse{
+  0%,100%{box-shadow:0 12px 36px rgba(94,194,106,.5), 0 0 0 0 rgba(94,194,106,.5)}
+  50%{box-shadow:0 12px 36px rgba(94,194,106,.5), 0 0 0 16px rgba(94,194,106,0)}
+}
+.floating-wa:hover{transform:scale(1.12) translateY(-3px);box-shadow:0 20px 50px rgba(94,194,106,.7)}
+
+.mobile-nav{
+  display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:95;
+  justify-content:space-around;gap:4px;padding:9px 6px;
+  background:var(--header-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(62,142,247,.22);
+  border-radius:18px;
+  box-shadow:0 16px 44px rgba(0,0,0,.5);
+}
+.mobile-nav::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(62,142,247,.6),transparent)}
+.mobile-nav button{
+  flex:1;border:0;background:none;color:var(--muted);
+  padding:8px 4px;border-radius:12px;
+  font:600 .68rem 'IBM Plex Sans',sans-serif;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  transition:all var(--t-fast) var(--ease);
+  letter-spacing:.02em;cursor:pointer;
+}
+.mobile-nav button .mi{font-size:1.2rem;line-height:1;transition:transform var(--t-med) var(--ease-bounce)}
+.mobile-nav button.active{color:var(--cyan);background:rgba(55,183,255,.1)}
+[data-theme="light"] .mobile-nav button.active{color:#0B4A78}
+.mobile-nav button.active .mi{transform:translateY(-2px) scale(1.15);filter:drop-shadow(0 0 12px currentColor)}
+.mobile-nav button:hover{color:var(--text)}
+
+.page{display:none;position:relative;z-index:2}
+.page.active{display:block;animation:pageIn .5s var(--ease)}
+@keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:840px){
+  .nav{display:none}
+  .mobile-nav{display:flex}
+  .floating-wa{bottom:92px;right:16px;width:52px;height:52px;font-size:1.4rem}
+  .header-inner{padding:0 14px;height:60px}
+  section{padding:40px 0}
+  .hero{padding:44px 0 24px}
+  .wrap{padding:0 18px}
+  .calculator{padding:22px}
+  .quick-contact{padding:24px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+  body::before,body::after{animation:none}
+  .particle{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="page-loader" id="page-loader"></div>
+<div class="read-progress" id="read-progress"></div>
+<div class="particles" id="particles" aria-hidden="true"></div>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="#home" class="brandmark" data-nav="home">PsGarageStep</a>
+    <nav class="nav" aria-label="Основная навигация">
+      <button class="nav-link active" data-nav="home">Главная</button>
+      <button class="nav-link" data-nav="playstation">PlayStation</button>
+      <button class="nav-link" data-nav="windows">Windows</button>
+      <button class="nav-link" data-nav="portfolio">Работы</button>
+      <button class="nav-link" data-nav="order">Заказ</button>
+      <button class="nav-link" data-nav="reviews">Отзывы</button>
+      <button class="nav-link" data-nav="faq">FAQ</button>
+      <button class="nav-link" data-nav="contact">Контакты</button>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn theme-toggle" id="search-btn" aria-label="Поиск" title="Поиск (Ctrl+K)">🔍</button>
+      <button class="icon-btn theme-toggle" id="theme-toggle" aria-label="Переключить тему" title="Тема">🌙</button>
+      <a href="tel:+77787086758" class="icon-btn call hide-mobile" aria-label="Позвонить" title="Позвонить">
+        <span>📞</span><span class="label-text">Позвонить</span>
+      </a>
+      <a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="icon-btn" aria-label="WhatsApp" title="WhatsApp">
+        <span>💬</span><span class="label-text">WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="online-badge">
+            <span class="online-dot"></span>
+            <span id="online-text">Проверяем статус...</span>
+          </div>
+          <p class="eyebrow">PsGarageStep · Сервис</p>
+          <h1><span class="grad">Техника готова к игре</span><br>PlayStation и Windows</h1>
+          <p class="sub">Установка Windows, драйверов и обновлений. Настройка PlayStation 3 / 4 / 5: HEN, Golden Hen, EtaHen и игровые пакеты. Быстро, аккуратно, с гарантией.</p>
+
+          <div class="hero-actions">
+            <a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="btn btn-wa">
+              <span>💬</span> Написать в WhatsApp
+            </a>
+            <a href="tel:+77787086758" class="btn btn-call">
+              <span>📞</span> Позвонить
+            </a>
+            <button class="btn btn-primary" data-nav="order">
+              <span>🛒</span> Собрать заказ
+            </button>
+          </div>
+
+          <div class="live-viewers">
+            <span>👀</span> <b id="viewers-count">7</b> человек смотрят сейчас
+          </div>
+
+          <div class="badges">
+            <span><i class="dot"></i> PS3 · PS4 · PS5</span>
+            <span><i class="dot"></i> Windows 7 · 8.1 · 10 · 11</span>
+            <span><i class="dot"></i> Гарантия качества</span>
+            <span><i class="dot"></i> Поддержка 24/7</span>
+          </div>
+
+          <div class="guarantee-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:36px;height:36px;flex:none">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <div>
+              <strong>Гарантия на все работы</strong>
+              <span>Если что-то пойдёт не так — исправим бесплатно</span>
+            </div>
+          </div>
+
+          <div class="share-row">
+            <span class="share-label">Поделиться</span>
+            <button class="share-btn" data-share="native" aria-label="Поделиться">📤</button>
+            <a class="share-btn" href="https://t.me/share/url?url=PsGarageStep" target="_blank" rel="noopener" aria-label="Telegram">✈</a>
+            <a class="share-btn" href="https://wa.me/?text=PsGarageStep" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+            <button class="share-btn" data-share="copy" aria-label="Скопировать ссылку">🔗</button>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#37B7FF"/>
+                <stop offset="100%" stop-color="#9B6BF2"/>
+              </linearGradient>
+              <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0F1729"/>
+                <stop offset="100%" stop-color="#05080F"/>
+              </linearGradient>
+            </defs>
+            <rect x="60" y="70" width="140" height="94" rx="8" fill="url(#bodyGrad)" stroke="#2D3F66" stroke-width="1.5"/>
+            <rect x="72" y="82" width="116" height="70" rx="3" fill="#05080F"/>
+            <rect x="80" y="90" width="100" height="4" fill="url(#screenGrad)" opacity=".9">
+              <animate attributeName="y" values="90;148;90" dur="3.6s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="80" y="94" width="100" height="2" fill="url(#screenGrad)" opacity=".3">
+              <animate attributeName="y" values="94;152;94" dur="3.6s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="110" y="164" width="40" height="14" fill="url(#bodyGrad)"/>
+            <rect x="85" y="178" width="90" height="6" rx="3" fill="#1E2A46"/>
+            <circle cx="200" cy="120" r="4" fill="#5EC26A">
+              <animate attributeName="opacity" values="1;.3;1" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="200" cy="120" r="8" fill="none" stroke="#5EC26A" stroke-width="1" opacity=".3">
+              <animate attributeName="r" values="8;14;8" dur="2.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values=".4;0;.4" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+            <rect x="196" y="140" width="30" height="50" rx="5" fill="url(#bodyGrad)" stroke="#2D3F66" stroke-width="1.5"/>
+            <circle cx="211" cy="180" r="3" fill="#37B7FF"/>
+            <circle cx="40" cy="140" r="4" fill="#9B6BF2">
+              <animate attributeName="opacity" values="1;.3;1" dur="3s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-head">
+        <h2>Выберите направление</h2>
+        <p>PlayStation или Windows — начнём с главного.</p>
+      </div>
+      <div class="choice-grid">
+        <button class="choice-card ps" data-nav="playstation">
+          <span class="choice-icon">🎮</span>
+          <h3>PlayStation</h3>
+          <p>PS3 · PS4 · PS5 — HEN, Golden Hen, EtaHen, игровые пакеты от 1 до 5.</p>
+        </button>
+        <button class="choice-card" data-nav="windows">
+          <span class="choice-icon">💻</span>
+          <h3>Windows</h3>
+          <p>Windows 7 · 8.1 · 10 · 11 — установка, драйверы, программы, чистка от вирусов.</p>
+        </button>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-head">
+        <h2>Почему PsGarageStep</h2>
+        <p>Всё необходимое — в одном месте.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature"><span class="ico">⚡</span><strong>Быстро</strong><span>Без лишнего ожидания</span></div>
+        <div class="feature"><span class="ico">🛠</span><strong>Под ключ</strong><span>Установка и настройка</span></div>
+        <div class="feature"><span class="ico">🎮</span><strong>Для игр</strong><span>Фокус на игровой технике</span></div>
+        <div class="feature"><span class="ico">📞</span><strong>Поддержка</strong><span>Помощь после установки</span></div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-head">
+        <h2>Как всё проходит</h2>
+        <p>Четыре простых шага.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><h3>Заявка</h3><p>Связываетесь с нами и описываете задачу.</p></div>
+        <div class="step"><div class="step-num">2</div><h3>Диагностика</h3><p>Уточняем модель устройства и услугу.</p></div>
+        <div class="step"><div class="step-num">3</div><h3>Настройка</h3><p>Выполняем установку или прошивку.</p></div>
+        <div class="step"><div class="step-num">4</div><h3>Готово</h3><p>Проверяем результат и передаём устройство.</p></div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="section-head">
+        <h2>Наши работы</h2>
+        <p>Примеры выполненных заказов. Нажмите — узнаете детали.</p>
+      </div>
+      <div class="portfolio-grid" id="portfolio-preview"></div>
+    </section>
+
+    <section class="reveal">
+      <div class="quick-contact">
+        <div>
+          <h2>Нужна помощь?</h2>
+          <p>Напишите или позвоните — обсудим устройство и нужную услугу.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="tel:+77787086758" class="btn btn-call"><span>📞</span> Позвонить</a>
+          <a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="btn btn-wa"><span>💬</span> WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- PLAYSTATION -->
+<div class="page" id="page-playstation" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · PlayStation</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">
+        <span class="grad-violet">PlayStation</span> сервис
+      </h1>
+      <p style="color:var(--muted);margin:0 0 32px;max-width:62ch;font-size:1.02rem">
+        Настройка PS3 / 4 / 5 и игровые пакеты. HEN — запуск неподписанных игр и приложений, устанавливается без пайки и без вмешательства в железо.
+      </p>
+
+      <div class="ps-grid">
+        <div class="ps-card" style="--c:var(--ps3)">
+          <div class="ps-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="10" rx="5"/><circle cx="7" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="13" r="1.4" fill="currentColor" stroke="none"/><path d="M9 13h2m-1-1v2"/></svg>
+            <h3>PS3</h3>
+          </div>
+          <div class="ps-line"><span>HEN</span><span class="num">5 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 1</span><span class="num">5 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 2</span><span class="num">10 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 3</span><span class="num">15 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 5</span><span class="num">20 000 ₸</span></div>
+        </div>
+        <div class="ps-card" style="--c:var(--ps4)">
+          <div class="ps-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="10" rx="5"/><circle cx="7" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="13" r="1.4" fill="currentColor" stroke="none"/><path d="M9 13h2m-1-1v2"/></svg>
+            <h3>PS4</h3>
+          </div>
+          <div class="ps-line"><span>Golden Hen</span><span class="num">5 500 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 1</span><span class="num">5 500 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 2</span><span class="num">10 500 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 3</span><span class="num">15 500 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 5</span><span class="num">20 500 ₸</span></div>
+        </div>
+        <div class="ps-card" style="--c:var(--ps5)">
+          <div class="ps-head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="8" width="20" height="10" rx="5"/><circle cx="7" cy="13" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="13" r="1.4" fill="currentColor" stroke="none"/><path d="M9 13h2m-1-1v2"/></svg>
+            <h3>PS5</h3>
+          </div>
+          <div class="ps-line"><span>EtaHen</span><span class="num">6 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 1</span><span class="num">6 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 2</span><span class="num">11 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 3</span><span class="num">16 000 ₸</span></div>
+          <div class="ps-line"><span>Пак игр 5</span><span class="num">21 000 ₸</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
+        <button class="btn btn-primary" data-nav="order">🛒 Собрать заказ</button>
+        <button class="btn btn-ghost" id="download-price">📄 Скачать прайс</button>
+      </div>
+
+      <div class="quick-contact" style="margin-top:36px">
+        <div>
+          <h2>Запись на PlayStation</h2>
+          <p>Консультация и настройка.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="tel:+77787086758" class="btn btn-call"><span>📞</span> Позвонить</a>
+          <a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="btn btn-wa"><span>💬</span> WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- WINDOWS -->
+<div class="page" id="page-windows" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · Windows</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">
+        <span class="grad-cyan">Windows</span> сервис
+      </h1>
+      <p style="color:var(--muted);margin:0 0 32px;max-width:62ch;font-size:1.02rem">
+        Установка Windows с нуля: чистый образ, драйверы, обновления, базовые программы. Никаких сборок «из интернета» — только официальные образы Microsoft.
+      </p>
+
+      <div class="win-panel">
+        <div class="win-row"><div class="winmark"><i></i><i></i><i></i><i></i></div><div><div class="name">Windows 11</div><div class="desc">Установка + драйверы + обновления</div></div><div class="num">5 000 ₸</div></div>
+        <div class="win-row"><div class="winmark"><i></i><i></i><i></i><i></i></div><div><div class="name">Windows 10</div><div class="desc">Установка + драйверы + обновления</div></div><div class="num">5 000 ₸</div></div>
+        <div class="win-row"><div class="winmark"><i></i><i></i><i></i><i></i></div><div><div class="name">Windows 8.1</div><div class="desc">Установка + драйверы</div></div><div class="num">4 000 ₸</div></div>
+        <div class="win-row"><div class="winmark"><i></i><i></i><i></i><i></i></div><div><div class="name">Windows 7</div><div class="desc">Установка + драйверы</div></div><div class="num">4 000 ₸</div></div>
+        <div class="win-row"><div class="winmark"><i></i><i></i><i></i><i></i></div><div><div class="name">Дополнительные услуги</div><div class="desc">Активация, программы, удаление вирусов, настройка</div></div><div class="num">от 2 000 ₸</div></div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
+        <button class="btn btn-primary" data-nav="order">🛒 Собрать заказ</button>
+        <button class="btn btn-ghost" id="download-price-2">📄 Скачать прайс</button>
+      </div>
+
+      <div class="quick-contact" style="margin-top:36px">
+        <div>
+          <h2>Запись на Windows</h2>
+          <p>Установка и настройка компьютера.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="tel:+77787086758" class="btn btn-call"><span>📞</span> Позвонить</a>
+          <a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="btn btn-wa"><span>💬</span> WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div class="page" id="page-portfolio" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · Портфолио</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">Наши работы</h1>
+      <p style="color:var(--muted);margin:0 0 28px;max-width:62ch;font-size:1.02rem">
+        Примеры выполненных заказов. Каждая работа — реальный клиент.
+      </p>
+      <div class="portfolio-grid" id="portfolio-full"></div>
+      <div class="quick-contact" style="margin-top:36px">
+        <div>
+          <h2>Хотите так же?</h2>
+          <p>Оставьте заявку — сделаем вашу технику готовой к игре.</p>
+        </div>
+        <button class="btn btn-primary" data-nav="order">🛒 Собрать заказ</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ORDER -->
+<div class="page" id="page-order" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · Заказ</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">Соберите заказ</h1>
+      <p style="color:var(--muted);margin:0 0 28px;max-width:62ch;font-size:1.02rem">
+        Выберите платформу, добавьте нужные услуги и оставьте контакт — мы свяжемся для подтверждения.
+      </p>
+
+      <div class="calculator">
+        <div class="quick-chips" id="quick-chips">
+          <button class="chip" data-chip="ps3">🎮 PS3</button>
+          <button class="chip" data-chip="ps4">🎮 PS4</button>
+          <button class="chip" data-chip="ps5">🎮 PS5</button>
+          <button class="chip" data-chip="win11">💻 Windows 11</button>
+          <button class="chip" data-chip="win10">💻 Windows 10</button>
+        </div>
+
+        <div class="calc-grid">
+          <div>
+            <label class="calc-label" for="calc-platform">Платформа</label>
+            <select class="select" id="calc-platform">
+              <option value="ps3">PlayStation 3</option>
+              <option value="ps4">PlayStation 4</option>
+              <option value="ps5">PlayStation 5</option>
+              <option value="win11">Windows 11</option>
+              <option value="win10">Windows 10</option>
+              <option value="win81">Windows 8.1</option>
+              <option value="win7">Windows 7</option>
+            </select>
+          </div>
+          <div>
+            <label class="calc-label" for="calc-service">Услуга</label>
+            <select class="select" id="calc-service"></select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" id="add-service" type="button" style="margin-top:18px">＋ Добавить услугу</button>
+
+        <div class="cart-list" id="calc-cart"></div>
+
+        <div class="calc-total">
+          <span>Итого</span>
+          <strong id="calc-total">0 ₸</strong>
+        </div>
+        <p class="calc-note">Можно добавить несколько услуг — итоговая стоимость суммируется.</p>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:18px">
+          <button class="btn btn-primary" id="checkout-btn" type="button" style="flex:1;min-width:180px">Оформить заказ</button>
+          <a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="btn btn-wa" style="flex:1;min-width:180px"><span>💬</span> Через WhatsApp</a>
+          <button class="btn btn-tg" id="order-telegram" type="button" style="flex:1;min-width:180px">✈ Отправить в Telegram</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="page" id="page-reviews" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · Отзывы</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">Отзывы клиентов</h1>
+      <p style="color:var(--muted);margin:0 0 28px;max-width:62ch;font-size:1.02rem">
+        Ваше мнение важно для нас. Оставьте отзыв — он поможет другим клиентам сделать выбор.
+      </p>
+
+      <div class="review-grid">
+        <div class="form">
+          <h3 style="margin:0 0 4px;font-size:1.1rem">⭐ Оставить отзыв</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin:0 0 10px">Отзыв появится после модерации.</p>
+          <div class="form-row">
+            <input class="input" id="review-name" placeholder="Ваше имя" required>
+            <select class="select" id="review-rating">
+              <option value="5">★★★★★ Отлично</option>
+              <option value="4">★★★★☆ Хорошо</option>
+              <option value="3">★★★☆☆ Нормально</option>
+              <option value="2">★★☆☆☆ Плохо</option>
+              <option value="1">★☆☆☆☆ Ужасно</option>
+            </select>
+          </div>
+          <textarea class="textarea" id="review-text" placeholder="Что понравилось? Что можно улучшить?" required></textarea>
+          <button class="btn btn-primary" id="review-submit" type="button">📤 Отправить отзыв</button>
+          <div class="form-status" id="review-status"></div>
+        </div>
+
+        <div style="display:grid;gap:14px">
+          <div class="feature">
+            <span class="ico">★★★★★</span>
+            <strong>Средняя оценка</strong>
+            <span id="avg-rating" style="font-size:1.1rem;color:var(--cyan);font-weight:700;margin-top:6px">—</span>
+          </div>
+          <div class="feature">
+            <span class="ico">💬</span>
+            <strong>Отзывов</strong>
+            <span id="reviews-count" style="font-size:1.1rem;color:var(--cyan);font-weight:700;margin-top:6px">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="reviews-list" style="display:grid;gap:12px;margin-top:24px"></div>
+    </section>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="page" id="page-faq" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · FAQ</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">Частые вопросы</h1>
+      <p style="color:var(--muted);margin:0 0 28px;max-width:62ch;font-size:1.02rem">
+        Основная информация перед обращением.
+      </p>
+
+      <div class="faq">
+        <details>
+          <summary>Какие устройства вы настраиваете?</summary>
+          <p>PlayStation 3, PlayStation 4, PlayStation 5 и компьютеры с Windows 7, 8.1, 10 и 11.</p>
+        </details>
+        <details>
+          <summary>Что такое HEN и зачем он нужен?</summary>
+          <p>HEN (Homebrew ENabler) — это программный способ запускать неподписанные игры и приложения на PlayStation. Устанавливается без пайки и без вмешательства в железо.</p>
+        </details>
+        <details>
+          <summary>Можно ли заказать только установку Windows?</summary>
+          <p>Да. В прайсе отдельно указаны услуги установки Windows и дополнительные услуги (активация, программы, чистка от вирусов).</p>
+        </details>
+        <details>
+          <summary>Можно ли выбрать пакет игр?</summary>
+          <p>Да, для PlayStation доступны пакеты разного объёма — от 1 до 5. Точные варианты и цены указаны в разделе PlayStation.</p>
+        </details>
+        <details>
+          <summary>Есть ли гарантия?</summary>
+          <p>Да. На все работы даём гарантию. Если что-то пойдёт не так — исправим бесплатно.</p>
+        </details>
+        <details>
+          <summary>Как связаться?</summary>
+          <p>Позвоните по номеру <a href="tel:+77787086758" style="color:var(--cyan)">+7 778 708 67 58</a> или напишите в WhatsApp.</p>
+        </details>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="page-contact" hidden>
+  <div class="wrap">
+    <section>
+      <p class="eyebrow">PsGarageStep · Контакты</p>
+      <h1 style="font-size:clamp(1.7rem,4.5vw,2.6rem);margin:0 0 12px">Свяжитесь с нами</h1>
+      <p style="color:var(--muted);margin:0 0 28px;max-width:62ch;font-size:1.02rem">
+        Работаем ежедневно. Отвечаем быстро.
+      </p>
+
+      <div class="contact-info-grid">
+        <div class="contact-info-card">
+          <span class="ci-icon">📞</span>
+          <h3>Позвонить</h3>
+          <a href="tel:+77787086758">+7 778 708 67 58</a>
+          <p style="color:var(--muted);font-size:.78rem;margin:8px 0 0">Ежедневно 9:00 – 22:00</p>
+        </div>
+        <div class="contact-info-card">
+          <span class="ci-icon">💬</span>
+          <h3>WhatsApp</h3>
+          <a href="https://wa.me/77787086758" target="_blank" rel="noopener">+7 778 708 67 58</a>
+          <p style="color:var(--muted);font-size:.78rem;margin:8px 0 0">Ответ за 5 минут</p>
+        </div>
+        <div class="contact-info-card">
+          <span class="ci-icon">✈</span>
+          <h3>Telegram</h3>
+          <a href="https://t.me/psgaragestep" target="_blank" rel="noopener">@psgaragestep</a>
+          <p style="color:var(--muted);font-size:.78rem;margin:8px 0 0">Уведомления о заказах</p>
+        </div>
+      </div>
+
+      <div class="quick-contact" style="margin-top:36px">
+        <div>
+          <h2>Готовы начать?</h2>
+          <p>Соберите заказ — мы свяжемся с вами для подтверждения.</p>
+        </div>
+        <button class="btn btn-primary" data-nav="order">🛒 Собрать заказ</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p style="margin:0 0 10px;font-size:.95rem"><strong>PsGarageStep</strong> · PlayStation · Windows</p>
+  <p style="margin:0;font-size:.78rem;color:var(--muted-dim)">Установка и настройка техники</p>
+  <div class="footer-links">
+    <a href="tel:+77787086758">📞 +7 778 708 67 58</a>
+    <a href="https://wa.me/77787086758" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a href="https://t.me/psgaragestep" target="_blank" rel="noopener">✈ Telegram</a>
+    <a href="#" data-nav="faq">❓ FAQ</a>
+  </div>
+  <p style="margin:16px 0 0;font-size:.72rem;color:var(--muted-dim)">© 2026 PsGarageStep</p>
+</footer>
+
+<nav class="mobile-nav" aria-label="Мобильная навигация">
+  <button data-nav="home" class="active"><span class="mi">⌂</span>Главная</button>
+  <button data-nav="playstation"><span class="mi">🎮</span>PS</button>
+  <button data-nav="windows"><span class="mi">💻</span>Win</button>
+  <button data-nav="order"><span class="mi">🛒</span>Заказ</button>
+  <button data-nav="contact"><span class="mi">📞</span>Связь</button>
+</nav>
+
+<a href="https://wa.me/77787086758" target="_blank" rel="noopener" class="floating-wa" aria-label="Открыть WhatsApp">💬</a>
+<button class="back-top" id="back-top" aria-label="Наверх">↑</button>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+  <div class="modal-box">
+    <button class="modal-close" data-close="checkout-modal" aria-label="Закрыть">×</button>
+    <h2 id="checkout-title">Оформление заказа</h2>
+    <p>Проверьте услуги и оставьте контакт для связи.</p>
+
+    <div id="checkout-summary" style="background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:16px;margin-bottom:18px"></div>
+
+    <div class="form" style="padding:0;background:none;border:none">
+      <input class="input" id="checkout-name" placeholder="Ваше имя" required autocomplete="name">
+      <input class="input" id="checkout-phone" placeholder="+7 ___ ___ __ __" type="tel" required autocomplete="tel">
+      <textarea class="textarea" id="checkout-comment" placeholder="Комментарий к заказу (необязательно)"></textarea>
+      <button class="btn btn-primary btn-block" id="create-order" type="button">Создать заказ</button>
+      <div class="form-status" id="checkout-status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO MODAL -->
+<div class="modal" id="portfolio-modal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button class="modal-close" data-close="portfolio-modal" aria-label="Закрыть">×</button>
+    <h2 id="portfolio-modal-title">Работа</h2>
+    <p id="portfolio-modal-desc">Описание</p>
+    <div id="portfolio-modal-visual" style="height:220px;border-radius:var(--r-md);background:radial-gradient(circle at 50% 50%,rgba(62,142,247,.25),transparent 60%),linear-gradient(135deg,#0F1729,#070B18);display:grid;place-items:center;font-size:5rem;border:1px solid var(--line);margin-bottom:16px"></div>
+    <button class="btn btn-primary btn-block" id="portfolio-modal-order">🛒 Хочу так же</button>
+  </div>
+</div>
+
+<!-- SEARCH MODAL -->
+<div class="modal" id="search-modal" role="dialog" aria-modal="true">
+  <div class="modal-box" style="padding:20px">
+    <button class="modal-close" data-close="search-modal" aria-label="Закрыть">×</button>
+    <input class="input" id="search-input" placeholder="Поиск: PS4, Windows, HEN..." autocomplete="off" style="font-size:1.05rem;padding:16px">
+    <div id="search-results" style="margin-top:16px;display:grid;gap:6px;max-height:50vh;overflow-y:auto"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  const CONFIG = {
+    phone: '+77787086758',
+    phoneDisplay: '+7 778 708 67 58',
+    whatsapp: 'https://wa.me/77787086758',
+    telegram: 'https://t.me/psgaragestep',
+    telegramBotToken: '',
+    telegramChatId: ''
+  };
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* LOADER */
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('page-loader')?.classList.add('hide'), 250);
+  });
+  setTimeout(() => document.getElementById('page-loader')?.classList.add('hide'), 3000);
+
+  /* READ PROGRESS */
+  const readProgress = document.getElementById('read-progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    if(readProgress) readProgress.style.width = p + '%';
+  }, { passive: true });
+
+  /* BACK TO TOP */
+  const backTop = document.getElementById('back-top');
+  window.addEventListener('scroll', () => {
+    backTop?.classList.toggle('show', window.scrollY > 400);
+  }, { passive: true });
+  backTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  /* THEME */
+  const themeToggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('psg_theme') || 'dark';
+  if(savedTheme === 'light') document.documentElement.setAttribute('data-theme','light');
+  updateThemeIcon(savedTheme);
+
+  themeToggle?.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const next = current === 'light' ? 'dark' : 'light';
+    if(next === 'light') document.documentElement.setAttribute('data-theme','light');
+    else document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('psg_theme', next);
+    updateThemeIcon(next);
+    showToast(next === 'light' ? '☀ Светлая тема' : '🌙 Тёмная тема');
+  });
+
+  function updateThemeIcon(theme){
+    if(themeToggle) themeToggle.textContent = theme === 'light' ? '☀' : '🌙';
+  }
+
+  /* ONLINE STATUS */
+  function updateOnlineStatus(){
+    const now = new Date();
+    const hour = now.getHours();
+    const isOnline = hour >= 9 && hour < 22;
+    const dot = document.querySelector('.online-dot');
+    const text = document.getElementById('online-text');
+    if(!text) return;
+    if(isOnline){
+      text.textContent = 'Онлайн · Отвечаю за 5 минут';
+      if(dot){ dot.style.background = '#5EC26A'; dot.style.boxShadow = '0 0 10px #5EC26A'; }
+    } else {
+      text.textContent = 'Офлайн · Отвечу в 9:00';
+      if(dot){ dot.style.background = '#FFB800'; dot.style.boxShadow = '0 0 10px #FFB800'; }
+    }
+  }
+  updateOnlineStatus();
+  setInterval(updateOnlineStatus, 60000);
+
+  /* LIVE VIEWERS */
+  function updateViewers(){
+    const el = document.getElementById('viewers-count');
+    if(!el) return;
+    el.textContent = 5 + Math.floor(Math.random() * 8);
+  }
+  updateViewers();
+  setInterval(updateViewers, 15000);
+
+  /* TOAST */
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  /* PARTICLES */
+  if(!reduceMotion){
+    const wrap = document.getElementById('particles');
+    if(wrap){
+      const colors = ['#37B7FF','#9B6BF2','#5EC26A','#E84CFF'];
+      for(let i = 0; i < 26; i++){
+        const p = document.createElement('span');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.background = colors[i % colors.length];
+        p.style.color = colors[i % colors.length];
+        p.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
+        p.style.animationDuration = (10 + Math.random() * 16) + 's';
+        p.style.animationDelay = (-Math.random() * 20) + 's';
+        const size = 1.5 + Math.random() * 2.5;
+        p.style.width = p.style.height = size + 'px';
+        wrap.appendChild(p);
+      }
+    }
+  }
+
+  /* NAVIGATION */
+  const pages = ['home','playstation','windows','portfolio','order','reviews','faq','contact'];
+  const navButtons = document.querySelectorAll('[data-nav]');
+  const pageEls = document.querySelectorAll('.page');
+
+  function showPage(name, updateHash = true){
+    if(!pages.includes(name)) name = 'home';
+    pageEls.forEach(el => {
+      const isActive = el.id === 'page-' + name;
+      el.hidden = !isActive;
+      el.classList.toggle('active', isActive);
+    });
+    navButtons.forEach(btn => {
+      if(btn.dataset.nav) btn.classList.toggle('active', btn.dataset.nav === name);
+    });
+    if(updateHash && location.hash !== '#' + name){
+      history.pushState({ page: name }, '', '#' + name);
+    }
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    requestAnimationFrame(initReveal);
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      if(btn.dataset.nav) showPage(btn.dataset.nav);
+    });
+  });
+  window.addEventListener('popstate', () => {
+    const name = (location.hash || '#home').slice(1);
+    showPage(name, false);
+  });
+  const initial = (location.hash || '#home').slice(1);
+  showPage(initial, false);
+
+  /* REVEAL */
+  let revealObserver;
+  function initReveal(){
+    if(reduceMotion) return;
+    if(revealObserver) revealObserver.disconnect();
+    if(!('IntersectionObserver' in window)){
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+      return;
+    }
+    revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.page.active .reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+  }
+  initReveal();
+
+  /* CALCULATOR */
+  const calcData = {
+    ps3: { name: 'PlayStation 3', services: [['HEN',5000],['Пак игр 1',5000],['Пак игр 2',10000],['Пак игр 3',15000],['Пак игр 5',20000]] },
+    ps4: { name: 'PlayStation 4', services: [['Golden Hen',5500],['Пак игр 1',5500],['Пак игр 2',10500],['Пак игр 3',15500],['Пак игр 5',20500]] },
+    ps5: { name: 'PlayStation 5', services: [['EtaHen',6000],['Пак игр 1',6000],['Пак игр 2',11000],['Пак игр 3',16000],['Пак игр 5',21000]] },
+    win11: { name: 'Windows 11', services: [['Установка Windows',5000],['Дополнительные услуги',2000]] },
+    win10: { name: 'Windows 10', services: [['Установка Windows',5000],['Дополнительные услуги',2000]] },
+    win81: { name: 'Windows 8.1', services: [['Установка Windows',4000],['Дополнительные услуги',2000]] },
+    win7: { name: 'Windows 7', services: [['Установка Windows',4000],['Дополнительные услуги',2000]] }
+  };
+
+  const cart = [];
+  const $ = id => document.getElementById(id);
+  const cpEl = $('calc-platform');
+  const csEl = $('calc-service');
+  const cartEl = $('calc-cart');
+  const totalEl = $('calc-total');
+
+  function fillServices(){
+    if(!cpEl || !csEl) return;
+    const data = calcData[cpEl.value];
+    csEl.innerHTML = '';
+    data.services.forEach((s, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = s[0] + ' — ' + s[1].toLocaleString('ru-RU') + ' ₸';
+      csEl.appendChild(opt);
+    });
+  }
+  function formatPrice(n){ return Number(n || 0).toLocaleString('ru-RU') + ' ₸'; }
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function renderCart(){
+    if(!cartEl) return { sum: 0 };
+    cartEl.innerHTML = '';
+    let sum = 0;
+    cart.forEach((item, i) => {
+      sum += item.price;
+      const row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML = `
+        <div class="cart-info"><div class="cart-title">${escapeHtml(item.platform)} · ${escapeHtml(item.service)}</div></div>
+        <div class="cart-price">${formatPrice(item.price)}</div>
+        <button class="cart-remove" data-remove="${i}" type="button" aria-label="Удалить">×</button>
+      `;
+      cartEl.appendChild(row);
+    });
+    if(totalEl) totalEl.textContent = formatPrice(sum);
+    cartEl.querySelectorAll('[data-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cart.splice(Number(btn.dataset.remove), 1);
+        renderCart();
+      });
+    });
+    renderRecommendations();
+    return { sum };
+  }
+
+  function renderRecommendations(){
+    if(!cartEl || !cart.length) return;
+    const firstItem = cart[0];
+    const platformKey = Object.keys(calcData).find(k => calcData[k].name === firstItem.platform);
+    const recommendations = {
+      ps3: [{ name: 'Пак игр 1', price: 5000 }, { name: 'Пак игр 2', price: 10000 }],
+      ps4: [{ name: 'Пак игр 1', price: 5500 }, { name: 'Пак игр 3', price: 15500 }],
+      ps5: [{ name: 'Пак игр 2', price: 11000 }, { name: 'Пак игр 5', price: 21000 }]
+    };
+    if(!platformKey || !recommendations[platformKey]) return;
+    const recs = recommendations[platformKey].filter(r => !cart.some(i => i.service === r.name));
+    if(!recs.length) return;
+
+    const block = document.createElement('div');
+    block.className = 'recommendations';
+    block.innerHTML = `
+      <div class="rec-title">С этим часто заказывают</div>
+      ${recs.map(r => `
+        <button type="button" data-recommend="${r.name}" data-recommend-price="${r.price}">
+          <span>+ ${r.name}</span><span>${r.price.toLocaleString('ru-RU')} ₸</span>
+        </button>
+      `).join('')}
+    `;
+    cartEl.appendChild(block);
+    block.querySelectorAll('[data-recommend]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cart.push({
+          platform: firstItem.platform,
+          service: btn.dataset.recommend,
+          price: Number(btn.dataset.recommendPrice)
+        });
+        renderCart();
+        showToast('✓ Добавлено');
+      });
+    });
+  }
+
+  if(cpEl) cpEl.addEventListener('change', fillServices);
+  fillServices();
+  renderCart();
+
+  $('add-service')?.addEventListener('click', () => {
+    const data = calcData[cpEl.value];
+    const idx = Number(csEl.value) || 0;
+    const service = data.services[idx];
+    if(!service) return;
+    cart.push({ platform: data.name, service: service[0], price: service[1] });
+    renderCart();
+    const btn = $('add-service');
+    btn.textContent = '✓ Добавлено';
+    btn.style.background = 'linear-gradient(135deg,#5EC26A,#3DA84A)';
+    setTimeout(() => {
+      btn.textContent = '＋ Добавить услугу';
+      btn.style.background = '';
+    }, 1000);
+  });
+
+  /* QUICK CHIPS */
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const platform = chip.dataset.chip;
+      if(cpEl){
+        cpEl.value = platform;
+        cpEl.dispatchEvent(new Event('change'));
+      }
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      showToast('Выбрано: ' + chip.textContent.trim());
+    });
+  });
+
+  /* MODALS */
+  function openModal(id){ $(id)?.classList.add('show'); }
+  function closeModal(id){ $(id)?.classList.remove('show'); }
+  document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
+  document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if(e.target === m) closeModal(m.id); }));
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show'));
+    if((e.ctrlKey || e.metaKey) && e.key === 'k'){ e.preventDefault(); openSearch(); }
+  });
+
+  /* CHECKOUT */
+  const checkoutSummary = $('checkout-summary');
+
+  $('checkout-btn')?.addEventListener('click', () => {
+    if(!cart.length){ showToast('Сначала добавьте хотя бы одну услугу'); return; }
+    const { sum } = renderCart() || {};
+    checkoutSummary.innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--muted)">Услуг:</span><strong>${cart.length}</strong></div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><span>Итого:</span><strong style="color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:1.1rem">${formatPrice(sum)}</strong></div>
+    `;
+    openModal('checkout-modal');
+    setTimeout(() => $('checkout-name')?.focus(), 100);
+  });
+
+  async function sendToTelegram(text){
+    if(!CONFIG.telegramBotToken || !CONFIG.telegramChatId) return false;
+    try{
+      const url = `https://api.telegram.org/bot${CONFIG.telegramBotToken}/sendMessage`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CONFIG.telegramChatId, text, parse_mode: 'HTML' })
+      });
+      return res.ok;
+    } catch(e){ return false; }
+  }
+
+  function buildOrderMessage(orderId, name, phone, comment){
+    const { sum } = renderCart() || {};
+    return [
+      `<b>🛒 Новый заказ ${orderId}</b>`,
+      `<b>Имя:</b> ${escapeHtml(name)}`,
+      `<b>Телефон:</b> ${escapeHtml(phone)}`,
+      comment ? `<b>Комментарий:</b> ${escapeHtml(comment)}` : '',
+      '',
+      '<b>Услуги:</b>',
+      ...cart.map(i => ` • ${escapeHtml(i.platform)} — ${escapeHtml(i.service)} (${i.price} ₸)`),
+      '',
+      `<b>Итого:</b> ${sum} ₸`
+    ].filter(Boolean).join('\n');
+  }
+
+  $('create-order')?.addEventListener('click', async () => {
+    const name = $('checkout-name').value.trim();
+    const phone = $('checkout-phone').value.trim();
+    const comment = $('checkout-comment').value.trim();
+    const status = $('checkout-status');
+
+    if(!name || name.length < 2){
+      status.textContent = 'Введите корректное имя.';
+      status.className = 'form-status show error';
+      return;
+    }
+    if(!phone || phone.replace(/\D/g,'').length < 10){
+      status.textContent = 'Введите корректный номер телефона.';
+      status.className = 'form-status show error';
+      return;
+    }
+
+    const { sum } = renderCart() || {};
+    const orderId = 'PSG-' + String(Math.floor(10000 + Math.random() * 90000));
+
+    try{
+      const saved = JSON.parse(localStorage.getItem('psg_orders') || '[]');
+      saved.unshift({ id: orderId, name, phone, comment, items: cart.slice(), total: sum, created: new Date().toLocaleString('ru-RU') });
+      localStorage.setItem('psg_orders', JSON.stringify(saved.slice(0, 50)));
+    } catch(e){}
+
+    const tgMessage = buildOrderMessage(orderId, name, phone, comment);
+    const sent = await sendToTelegram(tgMessage);
+
+    status.textContent = sent
+      ? `✓ Заказ ${orderId} создан и отправлен. Мы свяжемся с вами.`
+      : `✓ Заказ ${orderId} создан. Открываем WhatsApp...`;
+    status.className = 'form-status show success';
+
+    if(!sent){
+      const waText = [
+        `Новый заказ ${orderId}`,
+        `Имя: ${name}`,
+        `Телефон: ${phone}`,
+        comment ? `Комментарий: ${comment}` : '',
+        'Услуги:',
+        ...cart.map(i => ` • ${i.platform} — ${i.service} (${i.price} ₸)`),
+        `Итого: ${sum} ₸`
+      ].filter(Boolean).join('\n');
+      const waURL = CONFIG.whatsapp + '?text=' + encodeURIComponent(waText);
+      setTimeout(() => window.open(waURL, '_blank', 'noopener'), 700);
+    }
+
+    setTimeout(() => {
+      cart.length = 0;
+      renderCart();
+      $('checkout-name').value = '';
+      $('checkout-phone').value = '';
+      $('checkout-comment').value = '';
+    }, 1600);
+  });
+
+  $('order-telegram')?.addEventListener('click', async () => {
+    if(!cart.length){ showToast('Сначала добавьте услугу'); return; }
+    const { sum } = renderCart() || {};
+    const orderId = 'PSG-' + String(Math.floor(10000 + Math.random() * 90000));
+    const sent = await sendToTelegram(buildOrderMessage(orderId, 'Из калькулятора', '—', ''));
+    if(sent){
+      showToast('✓ Отправлено в Telegram');
+    } else {
+      const waText = [
+        `Новый заказ ${orderId}`,
+        'Из калькулятора',
+        'Услуги:',
+        ...cart.map(i => ` • ${i.platform} — ${i.service} (${i.price} ₸)`),
+        `Итого: ${sum} ₸`
+      ].join('\n');
+      window.open(CONFIG.whatsapp + '?text=' + encodeURIComponent(waText), '_blank', 'noopener');
+    }
+  });
+
+  /* REVIEWS */
+  function loadReviews(){ try{ return JSON.parse(localStorage.getItem('psg_reviews') || '[]'); } catch(e){ return []; } }
+  function saveReviews(list){ localStorage.setItem('psg_reviews', JSON.stringify(list)); }
+
+  function renderReviews(){
+    const list = loadReviews();
+    const wrap = $('reviews-list');
+    const count = $('reviews-count');
+    const avg = $('avg-rating');
+    if(!wrap) return;
+    if(!list.length){
+      wrap.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r-md)">Отзывов пока нет. Будьте первым!</div>';
+      if(count) count.textContent = '0';
+      if(avg) avg.textContent = '—';
+      return;
+    }
+    wrap.innerHTML = list.map(r => `
+      <div class="feature" style="text-align:left;padding:20px">
+        <div style="color:var(--amber);letter-spacing:2px;margin-bottom:8px">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        <p style="margin:0 0 8px;line-height:1.5;color:var(--text-soft)">${escapeHtml(r.text)}</p>
+        <small style="color:var(--muted)">— ${escapeHtml(r.name)}, ${escapeHtml(r.date)}</small>
+      </div>
+    `).join('');
+    if(count) count.textContent = String(list.length);
+    const avgVal = (list.reduce((s,r) => s + r.rating, 0) / list.length).toFixed(1);
+    if(avg) avg.textContent = avgVal + ' ★';
+  }
+  renderReviews();
+
+  $('review-submit')?.addEventListener('click', async () => {
+    const name = $('review-name').value.trim();
+    const text = $('review-text').value.trim();
+    const rating = Number($('review-rating').value) || 5;
+    const status = $('review-status');
+
+    if(!name || name.length < 2){ status.textContent = 'Введите имя.'; status.className = 'form-status show error'; return; }
+    if(!text || text.length < 5){ status.textContent = 'Напишите отзыв (минимум 5 символов).'; status.className = 'form-status show error'; return; }
+
+    const list = loadReviews();
+    list.unshift({ name, text, rating, date: new Date().toLocaleDateString('ru-RU') });
+    saveReviews(list);
+    renderReviews();
+
+    const tgText = `<b>⭐ Новый отзыв</b>\n<b>Имя:</b> ${escapeHtml(name)}\n<b>Оценка:</b> ${'★'.repeat(rating)}${'☆'.repeat(5-rating)}\n<b>Текст:</b> ${escapeHtml(text)}`;
+    const sent = await sendToTelegram(tgText);
+
+    status.textContent = sent ? '✓ Спасибо! Отзыв отправлен.' : '✓ Спасибо! Отзыв сохранён.';
+    status.className = 'form-status show success';
+
+    $('review-name').value = '';
+    $('review-text').value = '';
+    showToast('⭐ Спасибо за отзыв!');
+  });
+
+  /* PORTFOLIO */
+  const portfolioItems = [
+    { title: 'PS3 HEN + 3 игры', tag: 'PS3', tagClass: 'ps3', icon: '🎮', desc: 'Полная настройка PlayStation 3 с установкой HEN и пакетом из трёх игр.' },
+    { title: 'PS4 Golden Hen + 5 игр', tag: 'PS4', tagClass: 'ps4', icon: '🔥', desc: 'Прошивка Golden Hen и установка 5 популярных игр для PS4.' },
+    { title: 'PS5 EtaHen', tag: 'PS5', tagClass: 'ps5', icon: '⚡', desc: 'Настройка PlayStation 5 с EtaHen и базовыми приложениями.' },
+    { title: 'Windows 11 установка', tag: 'Windows', tagClass: '', icon: '💻', desc: 'Установка Windows 11 с официального образа, все драйверы и обновления.' },
+    { title: 'Чистка от вирусов', tag: 'Windows', tagClass: '', icon: '🛡', desc: 'Полная проверка системы, удаление вирусов и вредоносного ПО.' },
+    { title: 'Setup нового ПК', tag: 'Windows', tagClass: '', icon: '🛠', desc: 'Установка Windows + драйверы + базовые программы для нового компьютера.' }
+  ];
+
+  function portfolioCardHTML(item){
+    return `
+      <div class="portfolio-item" data-portfolio="${escapeHtml(item.title)}" data-icon="${item.icon}">
+        <div class="portfolio-visual">${item.icon}</div>
+        <span class="portfolio-tag ${item.tagClass}">${escapeHtml(item.tag)}</span>
+        <div class="portfolio-meta">
+          <strong>${escapeHtml(item.title)}</strong>
+          <span>${item.tag === 'Windows' ? 'Установка и настройка' : 'Настройка консоли'}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderPortfolio(){
+    const preview = $('portfolio-preview');
+    const full = $('portfolio-full');
+    if(preview) preview.innerHTML = portfolioItems.slice(0, 3).map(portfolioCardHTML).join('');
+    if(full) full.innerHTML = portfolioItems.map(portfolioCardHTML).join('');
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      item.addEventListener('click', () => openPortfolio(item));
+    });
+  }
+  renderPortfolio();
+
+  function openPortfolio(item){
+    const title = item.dataset.portfolio || 'Работа';
+    const icon = item.dataset.icon || '🎮';
+    const info = portfolioItems.find(p => p.title === title);
+    $('portfolio-modal-title').textContent = title;
+    $('portfolio-modal-desc').textContent = info ? info.desc : 'Выполнено в PsGarageStep.';
+    $('portfolio-modal-visual').textContent = icon;
+    openModal('portfolio-modal');
+  }
+
+  $('portfolio-modal-order')?.addEventListener('click', () => {
+    closeModal('portfolio-modal');
+    showPage('order');
+  });
+
+  /* SEARCH */
+  const searchIndex = [
+    { title: 'PlayStation сервис', page: 'playstation', icon: '🎮', keywords: 'ps3 ps4 ps5 игра hen golden etahen' },
+    { title: 'Windows сервис', page: 'windows', icon: '💻', keywords: 'windows установка 7 8 10 11 драйвер' },
+    { title: 'Собрать заказ', page: 'order', icon: '🛒', keywords: 'заказ корзина калькулятор цена' },
+    { title: 'Наши работы', page: 'portfolio', icon: '📸', keywords: 'портфолио работы примеры' },
+    { title: 'Отзывы', page: 'reviews', icon: '⭐', keywords: 'отзывы клиенты рейтинг' },
+    { title: 'FAQ', page: 'faq', icon: '❓', keywords: 'вопросы гарантия помощь' },
+    { title: 'Контакты', page: 'contact', icon: '📞', keywords: 'телефон whatsapp telegram связь' },
+    { title: 'PS3 HEN', page: 'playstation', icon: '🎮', keywords: 'ps3 hen 5000' },
+    { title: 'PS4 Golden Hen', page: 'playstation', icon: '🎮', keywords: 'ps4 golden hen 5500' },
+    { title: 'PS5 EtaHen', page: 'playstation', icon: '🎮', keywords: 'ps5 etahen 6000' }
+  ];
+
+  const searchInput = $('search-input');
+  const searchResults = $('search-results');
+
+  function openSearch(){
+    openModal('search-modal');
+    setTimeout(() => searchInput?.focus(), 100);
+    renderSearchResults('');
+  }
+
+  function renderSearchResults(q){
+    if(!searchResults) return;
+    const query = q.trim().toLowerCase();
+    const filtered = query
+      ? searchIndex.filter(i => (i.title + ' ' + i.keywords).toLowerCase().includes(query))
+      : searchIndex;
+    if(!filtered.length){
+      searchResults.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:.88rem">Ничего не найдено</div>';
+      return;
+    }
+    searchResults.innerHTML = filtered.slice(0, 8).map(item => `
+      <button class="search-result-btn" data-search-page="${item.page}">
+        <span style="font-size:1.1rem">${item.icon}</span>
+        <span>${escapeHtml(item.title)}</span>
+      </button>
+    `).join('');
+    searchResults.querySelectorAll('[data-search-page]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        closeModal('search-modal');
+        showPage(btn.dataset.searchPage);
+      });
+    });
+  }
+
+  searchInput?.addEventListener('input', e => renderSearchResults(e.target.value));
+  $('search-btn')?.addEventListener('click', openSearch);
+
+  /* SHARE */
+  document.querySelectorAll('[data-share]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const type = btn.dataset.share;
+      const url = location.origin + location.pathname;
+      const title = 'PsGarageStep — PlayStation и Windows сервис';
+      if(type === 'native' && navigator.share){
+        try{ await navigator.share({ title, text: 'Настройка PlayStation и установка Windows', url }); }
+        catch(e){}
+      } else if(type === 'copy'){
+        try{ await navigator.clipboard.writeText(url); showToast('🔗 Ссылка скопирована'); }
+        catch(e){ showToast('Не удалось скопировать'); }
+      }
+    });
+  });
+
+  /* PRICE PDF */
+  function downloadPrice(){
+    const rows = Object.values(calcData).map(p => `
+      <h3 style="margin:20px 0 8px;font-family:sans-serif">${p.name}</h3>
+      <table style="width:100%;border-collapse:collapse;font-family:sans-serif;font-size:14px">
+        ${p.services.map(s => `<tr><td style="padding:8px;border-bottom:1px solid #ddd">${s[0]}</td><td style="padding:8px;border-bottom:1px solid #ddd;text-align:right;font-weight:700">${s[1].toLocaleString('ru-RU')} ₸</td></tr>`).join('')}
+      </table>
+    `).join('');
+    const html = `
+      <!DOCTYPE html><html><head><meta charset="UTF-8"><title>PsGarageStep — Прайс-лист</title></head>
+      <body style="padding:40px;font-family:sans-serif;max-width:700px;margin:0 auto">
+        <h1 style="margin:0 0 8px">PsGarageStep — Прайс-лист</h1>
+        <p style="color:#666;margin:0 0 20px">Актуальные цены на услуги. Обновлено: ${new Date().toLocaleDateString('ru-RU')}</p>
+        ${rows}
+        <hr style="margin:30px 0;border:0;border-top:1px solid #ddd">
+        <p style="font-size:12px;color:#666">Телефон: ${CONFIG.phoneDisplay} · WhatsApp: ${CONFIG.whatsapp}</p>
+        <p style="font-size:12px;color:#666">© PsGarageStep</p>
+      </body></html>
+    `;
+    const w = window.open('', '_blank');
+    if(w){ w.document.write(html); w.document.close(); setTimeout(() => w.print(), 300); }
+  }
+  $('download-price')?.addEventListener('click', downloadPrice);
+  $('download-price-2')?.addEventListener('click', downloadPrice);
+
+})();
+</script>
+
+</body>
+</html>
